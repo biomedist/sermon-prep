@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주님의교회 EM어린이예배 설교준비</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory: #FAF6EE;
+  --warm-white: #FDFAF4;
+  --gold: #B8882A;
+  --gold-light: #D4A84B;
+  --gold-pale: #F0DFA8;
+  --brown-deep: #2C1A0E;
+  --brown-mid: #4A2E18;
+  --brown-warm: #6B4226;
+  --sage: #5C7A5A;
+  --sage-light: #8FA98D;
+  --rust: #8B3A2A;
+  --text: #1E110A;
+  --text-mid: #4A3020;
+  --text-light: #7A6050;
+  --border: rgba(184,136,42,0.18);
+  --border-hover: rgba(184,136,42,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--ivory);
+  color: var(--text);
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Parchment texture background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 120% 80% at 15% 0%, rgba(184,136,42,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 120% at 85% 100%, rgba(44,26,14,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 28px 100px;
+}
+
+/* ── HEADER ── */
+header {
+  text-align: center;
+  padding: 64px 0 48px;
+  position: relative;
+}
+
+.header-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.ornament-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+
+.cross-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cross-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(184,136,42,0.25);
+  border-radius: 50%;
+  animation: rotate-slow 12s linear infinite;
+}
+
+@keyframes rotate-slow { to { transform: rotate(360deg); } }
+
+.cross-sym {
+  font-size: 26px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.church-tag {
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: 'Noto Serif KR', 'Noto Sans KR', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 600;
+  color: var(--brown-deep);
+  line-height: 1.3;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.subtitle-en {
+  font-family: 'Lato', sans-serif;
+  font-size: 17px;
+  color: var(--brown-warm);
+  margin-bottom: 6px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.subtitle-ko {
+  font-size: 14px;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* ── SECTION BLOCKS ── */
+.block {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 30px 32px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 20px rgba(44,26,14,0.05), 0 1px 4px rgba(184,136,42,0.08);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.block:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 4px 30px rgba(44,26,14,0.08), 0 1px 6px rgba(184,136,42,0.12);
+}
+
+.block-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.block-num {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--brown-warm));
+  color: var(--ivory);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.block-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--brown-deep);
+  line-height: 1.3;
+}
+
+.block-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 5px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.25s;
+  background: transparent;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: var(--brown-deep);
+  color: var(--gold-pale);
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(44,26,14,0.2);
+}
+
+/* Panels */
+.panel { display: none; }
+.panel.active { display: block; animation: fadeSlide 0.3s ease; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form */
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+
+label.lbl {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+input[type=text], textarea, select {
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  transition: all 0.25s;
+  outline: none;
+  width: 100%;
+  line-height: 1.6;
+}
+
+input[type=text]:focus, textarea:focus, select:focus {
+  border-color: var(--gold-light);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(184,136,42,0.1);
+}
+
+textarea { resize: vertical; min-height: 78px; line-height: 1.6; }
+select option { background: var(--warm-white); }
+
+/* File drop */
+.drop-zone {
+  border: 2px dashed rgba(184,136,42,0.25);
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  background: var(--ivory);
+}
+
+.drop-zone:hover, .drop-zone.over {
+  border-color: var(--gold-light);
+  background: rgba(184,136,42,0.04);
+}
+
+.drop-zone input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+
+.drop-icon { font-size: 34px; margin-bottom: 10px; display: block; }
+.drop-text { font-size: 14px; color: var(--text-light); }
+.drop-sub { font-size: 11.5px; color: rgba(184,136,42,0.6); margin-top: 5px; }
+
+.file-pill {
+  display: none;
+  margin-top: 10px;
+  background: rgba(92,122,90,0.12);
+  border: 1px solid rgba(92,122,90,0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--sage);
+}
+
+/* Checkboxes */
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.check-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: var(--text-mid);
+  font-weight: 400;
+  user-select: none;
+}
+
+.check-chip input { display: none; }
+
+.check-chip.selected {
+  background: var(--brown-deep);
+  border-color: var(--brown-deep);
+  color: var(--gold-pale);
+}
+
+.check-chip .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.2s;
+}
+
+.check-chip.selected .dot { background: var(--gold-light); }
+
+/* Generate button */
+.gen-btn {
+  width: 100%;
+  padding: 19px;
+  background: linear-gradient(135deg, var(--brown-deep) 0%, var(--brown-mid) 100%);
+  border: none;
+  border-radius: 14px;
+  color: var(--gold-pale);
+  font-family: 'Noto Serif KR', 'Noto Sans KR', serif;
+  font-size: 19px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.gen-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transition: left 0.5s;
+}
+
+.gen-btn:hover:not(:disabled)::after { left: 100%; }
+
+.gen-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 35px rgba(44,26,14,0.3);
+}
+
+.gen-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* Error */
+.err {
+  background: rgba(139,58,42,0.1);
+  border: 1px solid rgba(139,58,42,0.25);
+  border-radius: 9px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--rust);
+  margin-top: 14px;
+  display: none;
+  line-height: 1.5;
+}
+
+/* ── LOADING ── */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.loader {
+  width: 54px; height: 54px;
+  position: relative;
+  margin: 0 auto 24px;
+}
+
+.loader::before, .loader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.loader::before {
+  border-top-color: var(--gold);
+  border-right-color: var(--gold);
+  animation: spin 1.2s linear infinite;
+}
+
+.loader::after {
+  border-bottom-color: rgba(184,136,42,0.25);
+  border-left-color: rgba(184,136,42,0.25);
+  animation: spin 1.2s linear infinite reverse;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.load-main {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  color: var(--brown-warm);
+  margin-bottom: 8px;
+}
+
+.load-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.load-step {
+  font-size: 12px;
+  color: var(--text-light);
+  opacity: 0;
+  animation: stepFade 0.5s ease forwards;
+}
+
+.load-step:nth-child(1) { animation-delay: 0.3s; }
+.load-step:nth-child(2) { animation-delay: 1.5s; }
+.load-step:nth-child(3) { animation-delay: 3s; }
+.load-step:nth-child(4) { animation-delay: 5s; }
+
+@keyframes stepFade { to { opacity: 0.7; } }
+
+/* ── OUTPUT ── */
+.output { display: none; animation: fadeSlide 0.5s ease; }
+
+.out-header {
+  text-align: center;
+  padding: 48px 0 36px;
+}
+
+.out-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(92,122,90,0.12);
+  border: 1px solid rgba(92,122,90,0.25);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--sage);
+  margin-bottom: 16px;
+}
+
+.out-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 600;
+  color: var(--brown-deep);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.out-sub { font-size: 14px; color: var(--text-light); }
+
+/* Output cards */
+.out-card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.out-card:hover {
+  box-shadow: 0 6px 30px rgba(44,26,14,0.08);
+}
+
+.out-card-head {
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(250,246,238,0.8);
+}
+
+.out-card-label {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--brown-deep);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.out-card-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  background: rgba(184,136,42,0.1);
+}
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.copy-btn:hover { border-color: var(--gold-light); color: var(--gold); }
+
+.out-card-body {
+  padding: 24px 26px;
+  font-size: 15.5px;
+  line-height: 2;
+  color: var(--text);
+  white-space: pre-wrap;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.out-card-body.is-script {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 16px;
+  line-height: 2.1;
+}
+
+/* Special: YouTube card */
+.yt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+}
+
+.yt-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+
+.yt-item:hover {
+  border-color: var(--border-hover);
+  background: #fff;
+  transform: translateX(3px);
+}
+
+.yt-thumb {
+  width: 100px;
+  min-width: 100px;
+  height: 62px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: rgba(184,136,42,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  overflow: hidden;
+}
+
+.yt-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+
+.yt-info { flex: 1; min-width: 0; }
+
+.yt-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brown-deep);
+  margin-bottom: 5px;
+  line-height: 1.45;
+}
+
+.yt-meta {
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.yt-badge {
+  display: inline-block;
+  background: rgba(255,0,0,0.08);
+  border: 1px solid rgba(255,0,0,0.15);
+  color: #cc0000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.yt-note { font-size: 11.5px; color: var(--text-light); margin-top: 8px; font-style: italic; }
+
+/* Korean card accent */
+.out-card.kr .out-card-head { background: rgba(92,122,90,0.06); }
+.out-card.kr .out-card-icon { background: rgba(92,122,90,0.12); }
+.out-card.kr .out-card-label { color: var(--sage); }
+
+/* Reset */
+.reset-btn {
+  display: block;
+  margin: 36px auto 0;
+  padding: 11px 30px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover { border-color: var(--gold-light); color: var(--brown-warm); }
+
+/* Divider */
+.dv {
+  display: flex; align-items: center; gap: 14px;
+  margin: 40px auto; max-width: 260px;
+}
+.dv-l { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+.dv-o { font-size: 13px; color: var(--gold-light); }
+
+/* API Key block */
+.apikey-block {
+  background: rgba(92,122,90,0.06);
+  border: 1px solid rgba(92,122,90,0.25);
+  border-radius: 18px;
+  padding: 24px 32px;
+  margin-bottom: 22px;
+}
+
+.apikey-block .block-title { color: var(--sage); }
+
+.key-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.key-input-wrap input {
+  padding-right: 50px;
+  font-family: 'Lato', monospace;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+}
+
+.key-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-light);
+  padding: 4px;
+  line-height: 1;
+}
+
+.key-guide {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.key-guide a {
+  color: var(--sage);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(92,122,90,0.4);
+}
+
+.key-guide a:hover { color: var(--sage-light); }
+
+.key-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--sage);
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Stagger animation for output cards */
+.out-card { opacity: 0; animation: cardIn 0.4s ease forwards; }
+.out-card:nth-child(1) { animation-delay: 0.05s; }
+.out-card:nth-child(2) { animation-delay: 0.12s; }
+.out-card:nth-child(3) { animation-delay: 0.19s; }
+.out-card:nth-child(4) { animation-delay: 0.26s; }
+.out-card:nth-child(5) { animation-delay: 0.33s; }
+.out-card:nth-child(6) { animation-delay: 0.40s; }
+.out-card:nth-child(7) { animation-delay: 0.47s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 580px) {
+  .row-2, .row-3 { grid-template-columns: 1fr; }
+  .block { padding: 20px; }
+  header { padding: 40px 0 32px; }
+  .tab-btn { font-size: 12px; padding: 8px 8px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="header-ornament">
+    <div class="ornament-line"></div>
+    <div class="cross-wrap"><span class="cross-sym">✝</span></div>
+    <div class="ornament-line"></div>
+  </div>
+  <p class="church-tag">주님의교회 · Lord's Church</p>
+  <h1>EM 어린이예배<br>설교 준비</h1>
+  <p class="subtitle-en">Children's Sermon Preparation Assistant</p>
+  <p class="subtitle-ko">말씀 중심의 예배를 준비합니다</p>
+</header>
+
+<!-- INPUT SECTION -->
+<div id="inputSection">
+
+  <!-- API KEY BLOCK -->
+  <div class="apikey-block">
+    <div class="block-header">
+      <div class="block-num" style="background: linear-gradient(135deg, var(--sage), #3d5c3b);">🔑</div>
+      <div>
+        <div class="block-title">Gemini API Key 입력</div>
+        <div class="block-desc">처음 한 번만 입력하면 브라우저가 기억해요 · 완전 무료로 사용 가능합니다</div>
+      </div>
+    </div>
+    <div class="key-input-wrap">
+      <input type="password" id="apiKeyInput" placeholder="AIza... 로 시작하는 Gemini API Key를 붙여넣으세요">
+      <button class="key-toggle" onclick="toggleKeyVis()" title="보기/숨기기">👁️</button>
+    </div>
+    <div class="key-guide">
+      🆓 API Key가 없으신가요? &nbsp;<a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>에서 무료로 발급받으세요 (구글 계정만 있으면 됩니다)
+      <span class="key-saved" id="keySavedBadge">✅ 저장됨</span>
+    </div>
+  </div>
+
+  <!-- BLOCK 1: Content Input -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-num">1</div>
+      <div>
+        <div class="block-title">설교 내용 입력</div>
+        <div class="block-desc">키워드/성경구절을 직접 입력하거나, 설교 자료 파일을 업로드해 주세요</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('kw')">🔤 키워드 · 성경구절 입력</button>
+      <button class="tab-btn" onclick="switchTab('file')">📄 파일 업로드 (PDF/TXT)</button>
+    </div>
+
+    <!-- Keyword Panel -->
+    <div id="p-kw" class="panel active">
+      <div class="row-2">
+        <div class="fg">
+          <label class="lbl">설교 제목 (Sermon Title)</label>
+          <input type="text" id="sTitle" placeholder="예: The Good Shepherd / 선한 목자">
+        </div>
+        <div class="fg">
+          <label class="lbl">성경 구절 (Bible Verse)</label>
+          <input type="text" id="sVerse" placeholder="예: John 10:11, Psalm 23:1-6">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="lbl">주제 · 키워드 (Theme / Keywords)</label>
+        <input type="text" id="sKeywords" placeholder="예: God's love, trust, courage, forgiveness, prayer...">
+      </div>
+      <div class="fg">
+        <label class="lbl">추가 메모 (Additional Notes)</label>
+        <textarea id="sNotes" placeholder="최근 교회 상황, 특별히 강조하고 싶은 내용, 어린이들에게 있었던 일 등을 자유롭게 적어주세요..."></textarea>
+      </div>
+    </div>
+
+    <!-- File Panel -->
+    <div id="p-file" class="panel">
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileIn" accept=".pdf,.txt" onchange="onFile(this)">
+        <span class="drop-icon">📁</span>
+        <p class="drop-text">PDF 또는 TXT 파일을 드래그하거나 클릭해 업로드</p>
+        <p class="drop-sub">최대 10MB · PDF, TXT 지원</p>
+      </div>
+      <div class="file-pill" id="filePill"></div>
+      <div class="fg" style="margin-top:14px;">
+        <label class="lbl">추가 메모</label>
+        <textarea id="fNotes" placeholder="파일 외에 추가로 반영할 사항을 입력해 주세요..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 2: Options -->
+  <div class="block">
+    <div class="block-header">
+      <div class="block-num">2</div>
+      <div>
+        <div class="block-title">설교 옵션</div>
+        <div class="block-desc">대상 연령, 설교 길이, 생성할 항목을 선택해 주세요</div>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="fg">
+        <label class="lbl">대상 연령 (Age Group)</label>
+        <select id="age">
+          <option value="mixed">혼합 — 전체 어린이 (4-12세)</option>
+          <option value="preschool">유치부 (4-6세)</option>
+          <option value="lower">초등 저학년 (7-9세)</option>
+          <option value="upper">초등 고학년 (10-12세)</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="lbl">설교 길이 (Length)</label>
+        <select id="len">
+          <option value="short">짧게 — 5~7분</option>
+          <option value="medium" selected>보통 — 10~12분</option>
+          <option value="long">길게 — 15~20분</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label class="lbl">생성할 항목 선택 (Output Sections)</label>
+      <div class="checks" id="checksArea">
+        <label class="check-chip selected" data-id="title">
+          <input type="checkbox" id="c-title" checked><span class="dot"></span> 📌 설교 제목 &amp; 성경 본문
+        </label>
+        <label class="check-chip selected" data-id="script">
+          <input type="checkbox" id="c-script" checked><span class="dot"></span> 📖 설교 스크립트 (영어)
+        </label>
+        <label class="check-chip selected" data-id="summary">
+          <input type="checkbox" id="c-summary" checked><span class="dot"></span> ✨ 핵심 메시지 요약
+        </label>
+        <label class="check-chip selected" data-id="discussion">
+          <input type="checkbox" id="c-discussion" checked><span class="dot"></span> 💬 토론/질문 가이드
+        </label>
+        <label class="check-chip selected" data-id="story">
+          <input type="checkbox" id="c-story" checked><span class="dot"></span> 🌱 삶 속의 예화
+        </label>
+        <label class="check-chip selected" data-id="activity">
+          <input type="checkbox" id="c-activity" checked><span class="dot"></span> 🎨 Group Activity
+        </label>
+        <label class="check-chip selected" data-id="youtube">
+          <input type="checkbox" id="c-youtube" checked><span class="dot"></span> ▶️ 바이블 스토리 (YouTube)
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="err" id="errBox"></div>
+
+  <button class="gen-btn" id="genBtn" onclick="generate()">
+    ✝ &nbsp; 설교 준비 시작하기
+  </button>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loadArea">
+  <div class="loader"></div>
+  <p class="load-main">말씀을 준비하고 있습니다...</p>
+  <p style="font-size:13px; color:var(--text-light);">Preparing the Word of God for little hearts</p>
+  <div class="load-steps">
+    <p class="load-step">📖 성경 본문을 분석하는 중...</p>
+    <p class="load-step">✍️ 설교 스크립트를 작성하는 중...</p>
+    <p class="load-step">🎨 활동 및 예화를 구성하는 중...</p>
+    <p class="load-step">▶️ 유튜브 바이블 스토리를 검색하는 중...</p>
+  </div>
+</div>
+
+<!-- OUTPUT -->
+<div class="output" id="outSection">
+  <div class="out-header">
+    <div class="out-badge">✅ 설교 준비 완료 · Sermon Ready</div>
+    <h2 class="out-title" id="outTitle"></h2>
+    <p class="out-sub" id="outSub"></p>
+  </div>
+  <div id="outCards"></div>
+  <button class="reset-btn" onclick="reset()">↩ 새 설교 준비하기</button>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+let tab = 'kw';
+let fileb64 = '';
+let fileObj = null;
+
+// ── Load saved API key from sessionStorage on page load
+window.addEventListener('load', () => {
+  const saved = sessionStorage.getItem('gemini_api_key');
+  if (saved) {
+    document.getElementById('apiKeyInput').value = saved;
+    document.getElementById('keySavedBadge').style.opacity = '1';
+  }
+});
+
+// ── Save key to sessionStorage when user types
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('apiKeyInput').addEventListener('input', function() {
+    const val = this.value.trim();
+    if (val.startsWith('AIza') && val.length > 20) {
+      sessionStorage.setItem('gemini_api_key', val);
+      document.getElementById('keySavedBadge').style.opacity = '1';
+    }
+  });
+});
+
+function toggleKeyVis() {
+  const inp = document.getElementById('apiKeyInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ── Tab switch
+function switchTab(t) {
+  tab = t;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', (i===0 && t==='kw') || (i===1 && t==='file'));
+  });
+  document.getElementById('p-kw').classList.toggle('active', t==='kw');
+  document.getElementById('p-file').classList.toggle('active', t==='file');
+}
+
+// ── Chip toggle
+document.getElementById('checksArea').querySelectorAll('.check-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+    chip.querySelector('input').checked = chip.classList.contains('selected');
+  });
+});
+
+// ── File drop
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const f = e.dataTransfer.files[0];
+  if (f) { document.getElementById('fileIn').files = e.dataTransfer.files; onFile(document.getElementById('fileIn')); }
+});
+
+function onFile(inp) {
+  fileObj = inp.files[0];
+  if (!fileObj) return;
+  const pill = document.getElementById('filePill');
+  pill.style.display = 'block';
+  pill.textContent = `📄 ${fileObj.name}  (${(fileObj.size/1024).toFixed(1)} KB)`;
+  const r = new FileReader();
+  r.onload = e => { fileb64 = e.target.result.split(',')[1] || ''; };
+  if (fileObj.type === 'application/pdf') r.readAsDataURL(fileObj);
+  else r.readAsText(fileObj);
+}
+
+function showErr(msg) {
+  const b = document.getElementById('errBox');
+  b.textContent = msg; b.style.display = 'block';
+  setTimeout(() => b.style.display='none', 6000);
+}
+
+// ── Generate
+async function generate() {
+  const age = document.getElementById('age').value;
+  const len = document.getElementById('len').value;
+
+  const inc = {
+    title: document.getElementById('c-title').checked,
+    script: document.getElementById('c-script').checked,
+    summary: document.getElementById('c-summary').checked,
+    discussion: document.getElementById('c-discussion').checked,
+    story: document.getElementById('c-story').checked,
+    activity: document.getElementById('c-activity').checked,
+    youtube: document.getElementById('c-youtube').checked,
+  };
+
+  // Build context
+  let ctx = '', metaTitle = '';
+
+  if (tab === 'kw') {
+    const T = document.getElementById('sTitle').value.trim();
+    const V = document.getElementById('sVerse').value.trim();
+    const K = document.getElementById('sKeywords').value.trim();
+    const N = document.getElementById('sNotes').value.trim();
+    if (!T && !V && !K) { showErr('설교 제목, 성경 구절, 또는 키워드 중 하나 이상을 입력해 주세요.'); return; }
+    metaTitle = T || K || V;
+    ctx = `Sermon Title: ${T||'(not specified)'}\nBible Verse: ${V||'(not specified)'}\nKeywords/Theme: ${K||'(not specified)'}\nAdditional Notes: ${N||'(none)'}`;
+  } else {
+    if (!fileObj) { showErr('파일을 먼저 업로드해 주세요.'); return; }
+    const N = document.getElementById('fNotes').value.trim();
+    metaTitle = fileObj.name.replace(/\.[^.]+$/, '');
+    ctx = `Source: ${fileObj.name}\nAdditional Notes: ${N||'(none)'}\n[File content provided as attachment]`;
+  }
+
+  const ageMap = {
+    mixed: 'mixed-age children (ages 4-12), use vocabulary and examples accessible to all ages',
+    preschool: 'preschool children (ages 4-6) — very simple words, short sentences, lots of repetition and actions',
+    lower: 'early elementary children (ages 7-9) — simple relatable language, stories, and concrete examples',
+    upper: 'upper elementary children (ages 10-12) — can handle deeper concepts and more open-ended discussion'
+  };
+
+  const lenMap = {
+    short: '5-7 minutes (approx 650-900 words for the sermon script)',
+    medium: '10-12 minutes (approx 1200-1600 words for the sermon script)',
+    long: '15-20 minutes (approx 1900-2600 words for the sermon script)'
+  };
+
+  const sections = [];
+  if (inc.title) sections.push(`=== SERMON TITLE & SCRIPTURE ===
+Provide:
+- A creative, child-friendly English sermon title (and Korean subtitle if helpful)
+- The main Bible passage (book, chapter, verses) with the full text of the key verse(s) written out (NIV or ESV)
+- A one-sentence "Big Idea" of the sermon in child-friendly language`);
+
+  if (inc.script) sections.push(`=== SERMON SCRIPT ===
+Write a complete, natural English sermon script for ${ageMap[age]}.
+Target length: ${lenMap[len]}.
+Include:
+- An engaging opening hook (story, question, or surprising fact)
+- Interactive moments [write stage directions in brackets like this]
+- Clear explanation of the Bible story/passage in simple terms
+- [OBJECT LESSON] or visual aid suggestion if appropriate
+- Transition phrases between sections
+- Memorable closing that calls children to respond
+- Write exactly as you would speak — natural, warm, enthusiastic`);
+
+  if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
+Provide:
+• The Big Idea (one sentence — what children should remember)
+• 3-4 key points in bullet form (very brief)
+• Memory verse or key phrase (simple, repeatable)
+• One-sentence life application`);
+
+  if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
+Provide 6-8 questions at varying levels:
+- 2-3 simple observation questions ("What happened in the story?")
+- 2-3 personal reflection questions ("Have you ever felt...?")
+- 1-2 application questions ("What is one thing you can do this week?")
+Label each question with its level: [EASY] [REFLECT] [APPLY]`);
+
+  if (inc.story) sections.push(`=== LIFE ILLUSTRATIONS (삶 속의 예화) ===
+Provide 2-3 vivid, relatable real-life story illustrations that connect to the sermon theme:
+- Each story should be 3-6 sentences long
+- Use modern, everyday situations children can relate to (school, family, sports, friendships)
+- End each story with a bridge sentence connecting it to the biblical truth
+- Label them: [ILLUSTRATION 1], [ILLUSTRATION 2], [ILLUSTRATION 3]
+- Include a brief Korean note for each (1-2 sentences) explaining how to use it`);
+
+  if (inc.activity) sections.push(`=== GROUP ACTIVITY ===
+Design 1 main group activity and 1 backup/take-home activity:
+
+[MAIN ACTIVITY]
+- Name of activity
+- Age suitability
+- Time needed
+- Materials required
+- Step-by-step instructions (numbered)
+- How it connects to the sermon theme
+
+[TAKE-HOME / BACKUP]
+- Name
+- Simple instructions (can be done at home)
+- Connection to theme`);
+
+  if (inc.youtube) sections.push(`=== YOUTUBE BIBLE STORY VIDEOS ===
+Based on the sermon topic and Bible passage, recommend 4-5 specific YouTube videos.
+For EACH video provide ALL of the following fields exactly:
+
+VIDEO_TITLE: [exact video title]
+CHANNEL: [channel name]
+SEARCH_QUERY: [the exact YouTube search query to find this video]
+YOUTUBE_URL: [construct a YouTube search URL like: https://www.youtube.com/results?search_query=YOUR+SEARCH+HERE]
+AGE_RANGE: [best age group for this video]
+DURATION: [estimated video length if known, or "varies"]
+WHY_USE: [1-2 sentences why this video fits the sermon]
+
+Recommend a variety: animated Bible story, worship song, object lesson video, memory verse song.
+Focus on well-known channels: Saddleback Kids, Crossroads Kids Club, Minno, Superbook, Bible Project, Hillsong Kids, LifeKids.`);
+
+  const prompt = `You are an experienced, creative children's ministry pastor preparing Sunday sermon materials for ${ageMap[age]}.
+
+INPUT INFORMATION:
+${ctx}
+
+Please prepare the following sections. Use the EXACT section headers shown (=== HEADER ===):
+
+${sections.join('\n\n')}
+
+Be warm, Spirit-filled, and creative. Make every section genuinely useful for a children's pastor.`;
+
+  // Validate API key
+  const apiKey = document.getElementById('apiKeyInput').value.trim();
+  if (!apiKey) {
+    showErr('⚠️ Gemini API Key를 먼저 입력해 주세요. 위의 초록색 칸에 Key를 붙여넣어 주세요.');
+    return;
+  }
+  if (!apiKey.startsWith('AIza')) {
+    showErr('⚠️ API Key 형식이 올바르지 않습니다. "AIza"로 시작하는 Key를 입력해 주세요.');
+    return;
+  }
+
+  // Save key
+  sessionStorage.setItem('gemini_api_key', apiKey);
+
+  // UI state
+  document.getElementById('inputSection').style.display = 'none';
+  document.getElementById('loadArea').style.display = 'block';
+  document.getElementById('genBtn').disabled = true;
+
+  try {
+    // Build Gemini request parts
+    const parts = [];
+
+    // If PDF file uploaded, add inline data
+    if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
+      parts.push({ inline_data: { mime_type: 'application/pdf', data: fileb64 } });
+    }
+    parts.push({ text: prompt });
+
+    const geminiModel = 'gemini-2.0-flash';
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+
+    const res = await fetch(geminiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts }],
+        generationConfig: {
+          maxOutputTokens: 8000,
+          temperature: 0.85
+        }
+      })
+    });
+
+    if (!res.ok) {
+      const e = await res.json();
+      const msg = e.error?.message || `API Error ${res.status}`;
+      if (res.status === 400) throw new Error('API Key가 올바르지 않습니다. Key를 다시 확인해 주세요.');
+      if (res.status === 429) throw new Error('요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.');
+      throw new Error(msg);
+    }
+
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+
+    if (!text) throw new Error('응답이 비어있습니다. 다시 시도해 주세요.');
+
+    document.getElementById('loadArea').style.display = 'none';
+    renderOutput(text, metaTitle, age, len, inc);
+
+  } catch(err) {
+    document.getElementById('loadArea').style.display = 'none';
+    document.getElementById('inputSection').style.display = 'block';
+    document.getElementById('genBtn').disabled = false;
+    showErr('오류가 발생했습니다: ' + err.message);
+  }
+}
+
+// ── Render output
+function renderOutput(text, title, age, len, inc) {
+  const ageLabels = {
+    mixed:'전체 어린이 (4-12세)', preschool:'유치부 (4-6세)',
+    lower:'초등 저학년 (7-9세)', upper:'초등 고학년 (10-12세)'
+  };
+  const lenLabels = { short:'5~7분', medium:'10~12분', long:'15~20분' };
+
+  document.getElementById('outTitle').textContent = title;
+  document.getElementById('outSub').textContent = `${ageLabels[age]} · ${lenLabels[len]} · ${new Date().toLocaleDateString('ko-KR')}`;
+
+  const cards = document.getElementById('outCards');
+  cards.innerHTML = '';
+
+  const defs = [
+    { key:'SERMON TITLE & SCRIPTURE', icon:'📌', label:'설교 제목 & 성경 본문', isYT:false },
+    { key:'SERMON SCRIPT', icon:'📖', label:'설교 스크립트 (영어)', isScript:true, isYT:false },
+    { key:'KEY MESSAGE SUMMARY', icon:'✨', label:'핵심 메시지 요약', isYT:false },
+    { key:'DISCUSSION QUESTIONS', icon:'💬', label:'토론 / 질문 가이드', isYT:false },
+    { key:'LIFE ILLUSTRATIONS', icon:'🌱', label:'삶 속의 예화 (Life Illustrations)', isYT:false },
+    { key:'GROUP ACTIVITY', icon:'🎨', label:'Group Activity', isYT:false },
+    { key:'YOUTUBE BIBLE STORY VIDEOS', icon:'▶️', label:'바이블 스토리 YouTube 추천', isYT:true },
+  ];
+
+  defs.forEach(def => {
+    // Use a flexible regex that matches the key anywhere in the header line
+    const escapedKey = def.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`===\\s*${escapedKey}[^=]*===([\\s\\S]*?)(?====|$)`, 'i');
+    const m = text.match(re);
+    if (!m) return;
+    const content = m[1].trim();
+
+    const card = document.createElement('div');
+    card.className = 'out-card';
+
+    if (def.isYT) {
+      const videos = parseYTVideos(content);
+      card.innerHTML = `
+        <div class="out-card-head">
+          <span class="out-card-label">
+            <span class="out-card-icon">${def.icon}</span>
+            ${def.label}
+          </span>
+          <span style="font-size:11px; color:var(--text-light);">클릭하면 유튜브로 이동합니다</span>
+        </div>
+        <div class="yt-list">${videos.map(renderYTItem).join('')}</div>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="out-card-head">
+          <span class="out-card-label">
+            <span class="out-card-icon">${def.icon}</span>
+            ${def.label}
+          </span>
+          <button class="copy-btn" onclick="cp(this,\`${esc(content)}\`)">복사</button>
+        </div>
+        <div class="out-card-body${def.isScript ? ' is-script' : ''}">${escH(content)}</div>
+      `;
+    }
+    cards.appendChild(card);
+  });
+
+  const outSec = document.getElementById('outSection');
+  outSec.style.display = 'block';
+  outSec.scrollIntoView({ behavior:'smooth' });
+}
+
+function parseYTVideos(text) {
+  const videos = [];
+  // Split by VIDEO_TITLE occurrences
+  const blocks = text.split(/VIDEO_TITLE:/i).filter(b => b.trim());
+  blocks.forEach(block => {
+    const get = (key) => {
+      const re = new RegExp(`${key}:\\s*(.+?)(?=\\n[A-Z_]+:|$)`, 'is');
+      const m = block.match(re);
+      return m ? m[1].trim().replace(/^\[|\]$/g,'') : '';
+    };
+    const videoTitle = block.split('\n')[0].trim().replace(/^\[|\]$/g,'');
+    const channel = get('CHANNEL');
+    const searchQ = get('SEARCH_QUERY');
+    const url = get('YOUTUBE_URL') || buildYTUrl(searchQ || videoTitle);
+    const age = get('AGE_RANGE');
+    const dur = get('DURATION');
+    const why = get('WHY_USE');
+
+    if (videoTitle) {
+      videos.push({ title: videoTitle, channel, url, age, dur, why, searchQ });
+    }
+  });
+  return videos;
+}
+
+function buildYTUrl(q) {
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+}
+
+function renderYTItem(v) {
+  const safeUrl = v.url.startsWith('http') ? v.url : buildYTUrl(v.title);
+  const thumbQ = encodeURIComponent(v.searchQ || v.title);
+  return `
+    <a class="yt-item" href="${safeUrl}" target="_blank" rel="noopener">
+      <div class="yt-thumb">▶️</div>
+      <div class="yt-info">
+        <div class="yt-title">${escH(v.title)}</div>
+        <div class="yt-meta">
+          ${v.channel ? `<span>📺 ${escH(v.channel)}</span>` : ''}
+          ${v.age ? `<span>👶 ${escH(v.age)}</span>` : ''}
+          ${v.dur ? `<span>⏱ ${escH(v.dur)}</span>` : ''}
+          <span class="yt-badge">YouTube</span>
+        </div>
+        ${v.why ? `<div class="yt-note">${escH(v.why)}</div>` : ''}
+      </div>
+    </a>
+  `;
+}
+
+function escH(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function esc(t) {
+  return t.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+}
+async function cp(btn, t) {
+  try {
+    await navigator.clipboard.writeText(t);
+    const o = btn.textContent;
+    btn.textContent = '✓ 복사됨';
+    setTimeout(() => btn.textContent = o, 2000);
+  } catch {}
+}
+function reset() {
+  document.getElementById('outSection').style.display = 'none';
+  document.getElementById('outCards').innerHTML = '';
+  document.getElementById('inputSection').style.display = 'block';
+  document.getElementById('genBtn').disabled = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

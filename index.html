@@ -1328,33 +1328,37 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
     let text = '';
 
     if (aiProvider === 'gemini') {
-      // ── GEMINI: single optimized request
+      // ── GEMINI: v1beta로 변경 및 maxOutputTokens 하향 조정
       const parts = [];
       if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
         parts.push({ inline_data: { mime_type: 'application/pdf', data: fileb64 } });
       }
       parts.push({ text: prompt });
 
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      // 수정됨: v1 -> v1beta
+      // 기존 코드에서 '2.0'을 '1.5'로만 변경하시면 됩니다.
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
       const res = await fetch(geminiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts }],
-          generationConfig: { maxOutputTokens: 8000, temperature: 0.85 }
+          generationConfig: { maxOutputTokens: 4096, temperature: 0.85 } // 수정됨: 8000 -> 4096
         })
       });
+      
       if (!res.ok) {
         const e = await res.json();
-        if (res.status === 429) throw new Error('요청이 너무 많습니다. 1분 후 다시 시도하거나 Claude로 전환해 주세요.');
-        if (res.status === 400) throw new Error('Gemini API Key가 올바르지 않습니다. Key를 확인해 주세요.');
+        console.error("Gemini Error:", e); // 개발자 도구 콘솔에서 정확한 에러 확인용
+        if (res.status === 429) throw new Error('요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.');
+        if (res.status === 400) throw new Error('잘못된 요청입니다. API Key나 파일 형식을 확인해 주세요.');
         throw new Error(e.error?.message || `오류 ${res.status}`);
       }
       const data = await res.json();
       text = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
 
     } else {
-      // ── CLAUDE: single optimized request
+      // ── CLAUDE: 정확한 모델명으로 변경 및 max_tokens 하향 조정
       let messages;
       if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
         messages = [{ role: 'user', content: [
@@ -1369,18 +1373,21 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01'
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true' // 브라우저 직접 호출시 가끔 필요함
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 8000,
+          model: 'claude-3-5-sonnet-20241022', // 수정됨: 올바른 최신 모델명
+          max_tokens: 4096, // 수정됨: 8000 -> 4096
           messages
         })
       });
+      
       if (!res.ok) {
         const e = await res.json();
-        if (res.status === 401) throw new Error('Claude API Key가 올바르지 않습니다. Key를 확인해 주세요.');
-        if (res.status === 429) throw new Error('Claude 요청 한도 초과. 잠시 후 다시 시도해 주세요.');
+        console.error("Claude Error:", e); // 개발자 도구 콘솔에서 정확한 에러 확인용
+        if (res.status === 401) throw new Error('Claude API Key가 올바르지 않습니다.');
+        if (res.status === 429) throw new Error('Claude 잔액이 부족하거나 요청 한도를 초과했습니다.');
         throw new Error(e.error?.message || `오류 ${res.status}`);
       }
       const data = await res.json();
@@ -1393,6 +1400,7 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
     renderOutput(text, metaTitle, age, len, inc);
 
   } catch(err) {
+// ... (이하 기존 에러 처리 코드 동일)
     document.getElementById('loadArea').style.display = 'none';
     document.getElementById('inputSection').style.display = 'block';
     document.getElementById('genBtn').disabled = false;

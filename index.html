@@ -990,43 +990,43 @@ select option { background: var(--warm-white); }
       <label class="lbl">생성할 항목 선택 (Output Sections)</label>
       <p style="font-size:13px; color:var(--text-light); margin-bottom:12px;">✅ 클릭하면 선택/해제 됩니다. 선택된 항목만 생성돼요!</p>
       <div class="checks" id="checksArea">
-        <label class="check-chip selected" data-id="title" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="title">
           <input type="checkbox" id="c-title" checked>
           <span class="chip-icon">📌</span>
           <span class="chip-text">설교 제목 & 성경 본문</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="script" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="script">
           <input type="checkbox" id="c-script" checked>
           <span class="chip-icon">📖</span>
           <span class="chip-text">설교 스크립트 (영어)</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="summary" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="summary">
           <input type="checkbox" id="c-summary" checked>
           <span class="chip-icon">✨</span>
           <span class="chip-text">핵심 메시지 요약</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="discussion" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="discussion">
           <input type="checkbox" id="c-discussion" checked>
           <span class="chip-icon">💬</span>
           <span class="chip-text">토론/질문 가이드</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="story" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="story">
           <input type="checkbox" id="c-story" checked>
           <span class="chip-icon">🌱</span>
           <span class="chip-text">삶 속의 예화</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="activity" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="activity">
           <input type="checkbox" id="c-activity" checked>
           <span class="chip-icon">🎨</span>
           <span class="chip-text">Group Activity</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="youtube" onclick="toggleChip(this)">
+        <label class="check-chip selected" data-id="youtube">
           <input type="checkbox" id="c-youtube" checked>
           <span class="chip-icon">▶️</span>
           <span class="chip-text">바이블 스토리 (YouTube)</span>
@@ -1100,6 +1100,16 @@ window.addEventListener('load', () => {
 
 // ── Save keys on input
 document.addEventListener('DOMContentLoaded', () => {
+  // ── Chip toggle listeners
+  document.querySelectorAll('.check-chip').forEach(chip => {
+    chip.addEventListener('click', function(e) {
+      e.preventDefault();
+      this.classList.toggle('selected');
+      const cb = this.querySelector('input[type=checkbox]');
+      cb.checked = this.classList.contains('selected');
+    });
+  });
+
   document.getElementById('geminiKeyInput').addEventListener('input', function() {
     const v = this.value.trim();
     if (v.startsWith('AIza') && v.length > 20) {

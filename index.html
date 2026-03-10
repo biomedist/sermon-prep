@@ -968,13 +968,11 @@ select option { background: var(--warm-white); }
 
     <div class="row-2">
       <div class="fg">
-        <label class="lbl">대상 연령 (Age Group)</label>
-        <select id="age">
-          <option value="mixed">혼합 — 전체 어린이 (4-12세)</option>
-          <option value="preschool">유치부 (4-6세)</option>
-          <option value="lower">초등 저학년 (7-9세)</option>
-          <option value="upper">초등 고학년 (10-12세)</option>
-        </select>
+        <label class="lbl">대상 청중 (Target Audience)</label>
+          <select id="age">
+            <option value="elementary" selected>초등학생 (스토리텔링 및 쉬운 적용 중심)</option>
+            <option value="youth_adult">중고등학생 이상 (심도 있는 신학적·주해적 접근)</option>
+          </select>
       </div>
       <div class="fg">
         <label class="lbl">설교 길이 (Length)</label>
@@ -1210,10 +1208,8 @@ async function generate() {
   }
 
   const ageMap = {
-    mixed: 'mixed-age children (ages 4-12), use vocabulary and examples accessible to all ages',
-    preschool: 'preschool children (ages 4-6) — very simple words, short sentences, lots of repetition and actions',
-    lower: 'early elementary children (ages 7-9) — simple relatable language, stories, and concrete examples',
-    upper: 'upper elementary children (ages 10-12) — can handle deeper concepts and more open-ended discussion'
+    elementary: 'elementary school children (ages 7-12) — use simple, relatable language, engaging storytelling, and concrete examples.',
+    youth_adult: 'youth, young adults, and adults (ages 13+) — provide deep theological exegesis, historical/cultural context, redemptive-historical insights, and sophisticated academic/spiritual language suitable even for theology students.'
   };
 
   const lenMap = {
@@ -1223,31 +1219,34 @@ async function generate() {
   };
 
   const sections = [];
+  const isDeep = (age === 'youth_adult');
+
+  // 1. 제목 및 본문 (연령에 따라 깊이 다르게)
   if (inc.title) sections.push(`=== SERMON TITLE & SCRIPTURE ===
 Provide:
-- A creative, child-friendly English sermon title (and Korean subtitle if helpful)
+- A ${isDeep ? 'theologically profound' : 'creative, child-friendly'} English sermon title (and Korean subtitle if helpful)
 - The main Bible passage (book, chapter, verses) with the full text of the key verse(s) written out (NIV or ESV)
-- A one-sentence "Big Idea" of the sermon in child-friendly language`);
+- A ${isDeep ? 'theological thesis statement' : 'one-sentence "Big Idea" of the sermon'}`);
 
+  // 2. 설교 스크립트 (연령에 따라 완전히 다르게 작성)
   if (inc.script) sections.push(`=== SERMON SCRIPT ===
 Write a complete, natural English sermon script for ${ageMap[age]}.
 Target length: ${lenMap[len]}.
 Include:
-- An engaging opening hook (story, question, or surprising fact)
-- Interactive moments [write stage directions in brackets like this]
-- Clear explanation of the Bible story/passage in simple terms
-- [OBJECT LESSON] or visual aid suggestion if appropriate
-- Transition phrases between sections
-- Memorable closing that calls children to respond
-- Write exactly as you would speak — natural, warm, enthusiastic`);
+- An engaging opening
+- ${isDeep ? 'Deep exegesis of the text (mentioning original Greek/Hebrew meanings if relevant) and theological framework' : 'Interactive moments and simple explanation of the Bible passage'}
+- Clear application to daily life
+- Memorable closing that calls the congregation to respond
+- Write exactly as you would speak — ${isDeep ? 'intellectually stimulating, pastoral, and reverent' : 'natural, warm, enthusiastic'}`);
 
+  // 3. 핵심 요약
   if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
 Provide:
-• The Big Idea (one sentence — what children should remember)
+• The Big Idea / Core Message (one sentence)
 • 3-4 key points in bullet form (very brief)
-• Memory verse or key phrase (simple, repeatable)
+• Memory verse or key phrase
 • One-sentence life application`);
-
+  
   if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
 Provide 6-8 questions at varying levels:
 - 2-3 simple observation questions ("What happened in the story?")

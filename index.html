@@ -845,7 +845,7 @@ select option { background: var(--warm-white); }
     <div class="cross-wrap"><span class="cross-sym">✝</span></div>
     <div class="ornament-line"></div>
   </div>
-  <p class="church-tag">주님의교회 · the Presbyterian Church of the Lord.</p>
+  <p class="church-tag">주님의교회 · Lord's Church</p>
   <h1>EM 어린이예배<br>설교 준비</h1>
   <p class="subtitle-en">Children's Sermon Preparation Assistant</p>
   <p class="subtitle-ko">말씀 중심의 예배를 준비합니다</p>
@@ -968,11 +968,13 @@ select option { background: var(--warm-white); }
 
     <div class="row-2">
       <div class="fg">
-        <label class="lbl">대상 청중 (Target Audience)</label>
-          <select id="age">
-            <option value="elementary" selected>초등학생 (스토리텔링 및 쉬운 적용 중심)</option>
-            <option value="youth_adult">중고등학생 이상 (심도 있는 신학적·주해적 접근)</option>
-          </select>
+        <label class="lbl">대상 연령 (Age Group)</label>
+        <select id="age">
+          <option value="mixed">혼합 — 전체 어린이 (4-12세)</option>
+          <option value="preschool">유치부 (4-6세)</option>
+          <option value="lower">초등 저학년 (7-9세)</option>
+          <option value="upper">초등 고학년 (10-12세)</option>
+        </select>
       </div>
       <div class="fg">
         <label class="lbl">설교 길이 (Length)</label>
@@ -1208,8 +1210,10 @@ async function generate() {
   }
 
   const ageMap = {
-    elementary: 'elementary school children (ages 7-12) — use simple, relatable language, engaging storytelling, and concrete examples.',
-    youth_adult: 'youth, young adults, and adults (ages 13+) — provide deep theological exegesis, historical/cultural context, redemptive-historical insights, and sophisticated academic/spiritual language suitable even for theology students.'
+    mixed: 'mixed-age children (ages 4-12), use vocabulary and examples accessible to all ages',
+    preschool: 'preschool children (ages 4-6) — very simple words, short sentences, lots of repetition and actions',
+    lower: 'early elementary children (ages 7-9) — simple relatable language, stories, and concrete examples',
+    upper: 'upper elementary children (ages 10-12) — can handle deeper concepts and more open-ended discussion'
   };
 
   const lenMap = {
@@ -1219,34 +1223,31 @@ async function generate() {
   };
 
   const sections = [];
-  const isDeep = (age === 'youth_adult');
-
-  // 1. 제목 및 본문 (연령에 따라 깊이 다르게)
   if (inc.title) sections.push(`=== SERMON TITLE & SCRIPTURE ===
 Provide:
-- A ${isDeep ? 'theologically profound' : 'creative, child-friendly'} English sermon title (and Korean subtitle if helpful)
+- A creative, child-friendly English sermon title (and Korean subtitle if helpful)
 - The main Bible passage (book, chapter, verses) with the full text of the key verse(s) written out (NIV or ESV)
-- A ${isDeep ? 'theological thesis statement' : 'one-sentence "Big Idea" of the sermon'}`);
+- A one-sentence "Big Idea" of the sermon in child-friendly language`);
 
-  // 2. 설교 스크립트 (연령에 따라 완전히 다르게 작성)
   if (inc.script) sections.push(`=== SERMON SCRIPT ===
 Write a complete, natural English sermon script for ${ageMap[age]}.
 Target length: ${lenMap[len]}.
 Include:
-- An engaging opening
-- ${isDeep ? 'Deep exegesis of the text (mentioning original Greek/Hebrew meanings if relevant) and theological framework' : 'Interactive moments and simple explanation of the Bible passage'}
-- Clear application to daily life
-- Memorable closing that calls the congregation to respond
-- Write exactly as you would speak — ${isDeep ? 'intellectually stimulating, pastoral, and reverent' : 'natural, warm, enthusiastic'}`);
+- An engaging opening hook (story, question, or surprising fact)
+- Interactive moments [write stage directions in brackets like this]
+- Clear explanation of the Bible story/passage in simple terms
+- [OBJECT LESSON] or visual aid suggestion if appropriate
+- Transition phrases between sections
+- Memorable closing that calls children to respond
+- Write exactly as you would speak — natural, warm, enthusiastic`);
 
-  // 3. 핵심 요약
   if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
 Provide:
-• The Big Idea / Core Message (one sentence)
+• The Big Idea (one sentence — what children should remember)
 • 3-4 key points in bullet form (very brief)
-• Memory verse or key phrase
+• Memory verse or key phrase (simple, repeatable)
 • One-sentence life application`);
-  
+
   if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
 Provide 6-8 questions at varying levels:
 - 2-3 simple observation questions ("What happened in the story?")
@@ -1318,6 +1319,12 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
     sessionStorage.setItem('claude_api_key', apiKey);
   }
 
+  // ── Calculate max tokens based on selected sections
+  const selectedCount = Object.values(inc).filter(Boolean).length;
+  const hasScript = inc.script; // 설교 스크립트는 특히 많은 토큰 필요
+  const baseTokens = hasScript ? 10000 : 5000;
+  const maxTokens = Math.min(baseTokens + (selectedCount * 800), 16000);
+
   // UI state
   document.getElementById('inputSection').style.display = 'none';
   document.getElementById('loadArea').style.display = 'block';
@@ -1327,37 +1334,33 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
     let text = '';
 
     if (aiProvider === 'gemini') {
-      // ── GEMINI: v1beta로 변경 및 maxOutputTokens 하향 조정
+      // ── GEMINI: single optimized request
       const parts = [];
       if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
         parts.push({ inline_data: { mime_type: 'application/pdf', data: fileb64 } });
       }
       parts.push({ text: prompt });
 
-      // 수정됨: v1 -> v1beta
-      // 기존 코드에서 '2.0'을 '1.5'로만 변경하시면 됩니다.
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
       const res = await fetch(geminiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts }],
-          generationConfig: { maxOutputTokens: 4096, temperature: 0.85 } // 수정됨: 8000 -> 4096
+          generationConfig: { maxOutputTokens: maxTokens, temperature: 0.85 }
         })
       });
-      
       if (!res.ok) {
         const e = await res.json();
-        console.error("Gemini Error:", e); // 개발자 도구 콘솔에서 정확한 에러 확인용
-        if (res.status === 429) throw new Error('요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.');
-        if (res.status === 400) throw new Error('잘못된 요청입니다. API Key나 파일 형식을 확인해 주세요.');
+        if (res.status === 429) throw new Error('요청이 너무 많습니다. 1분 후 다시 시도하거나 Claude로 전환해 주세요.');
+        if (res.status === 400) throw new Error('Gemini API Key가 올바르지 않습니다. Key를 확인해 주세요.');
         throw new Error(e.error?.message || `오류 ${res.status}`);
       }
       const data = await res.json();
       text = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
 
     } else {
-      // ── CLAUDE: 정확한 모델명으로 변경 및 max_tokens 하향 조정
+      // ── CLAUDE: single optimized request
       let messages;
       if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
         messages = [{ role: 'user', content: [
@@ -1372,21 +1375,18 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true' // 브라우저 직접 호출시 가끔 필요함
+          'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-3-5-sonnet-20241022', // 수정됨: 올바른 최신 모델명
-          max_tokens: 4096, // 수정됨: 8000 -> 4096
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: maxTokens,
           messages
         })
       });
-      
       if (!res.ok) {
         const e = await res.json();
-        console.error("Claude Error:", e); // 개발자 도구 콘솔에서 정확한 에러 확인용
-        if (res.status === 401) throw new Error('Claude API Key가 올바르지 않습니다.');
-        if (res.status === 429) throw new Error('Claude 잔액이 부족하거나 요청 한도를 초과했습니다.');
+        if (res.status === 401) throw new Error('Claude API Key가 올바르지 않습니다. Key를 확인해 주세요.');
+        if (res.status === 429) throw new Error('Claude 요청 한도 초과. 잠시 후 다시 시도해 주세요.');
         throw new Error(e.error?.message || `오류 ${res.status}`);
       }
       const data = await res.json();
@@ -1399,7 +1399,6 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
     renderOutput(text, metaTitle, age, len, inc);
 
   } catch(err) {
-// ... (이하 기존 에러 처리 코드 동일)
     document.getElementById('loadArea').style.display = 'none';
     document.getElementById('inputSection').style.display = 'block';
     document.getElementById('genBtn').disabled = false;
@@ -1408,6 +1407,8 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for a 
 }
 
 // ── Render output
+const cardContents = {};
+
 function renderOutput(text, title, age, len, inc) {
   const ageLabels = {
     mixed:'전체 어린이 (4-12세)', preschool:'유치부 (4-6세)',
@@ -1420,6 +1421,7 @@ function renderOutput(text, title, age, len, inc) {
 
   const cards = document.getElementById('outCards');
   cards.innerHTML = '';
+  let cardIdx = 0;
 
   const defs = [
     { key:'SERMON TITLE & SCRIPTURE', icon:'📌', label:'설교 제목 & 성경 본문', isYT:false },
@@ -1438,6 +1440,8 @@ function renderOutput(text, title, age, len, inc) {
     const m = text.match(re);
     if (!m) return;
     const content = m[1].trim();
+    const idx = cardIdx++;
+    cardContents[idx] = content; // Store safely outside DOM
 
     const card = document.createElement('div');
     card.className = 'out-card';
@@ -1461,7 +1465,7 @@ function renderOutput(text, title, age, len, inc) {
             <span class="out-card-icon">${def.icon}</span>
             ${def.label}
           </span>
-          <button class="copy-btn" onclick="cp(this,\`${esc(content)}\`)">복사</button>
+          <button class="copy-btn" data-idx="${idx}" onclick="cp(this)">복사</button>
         </div>
         <div class="out-card-body${def.isScript ? ' is-script' : ''}">${escH(content)}</div>
       `;
@@ -1529,13 +1533,35 @@ function escH(t) {
 function esc(t) {
   return t.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
 }
-async function cp(btn, t) {
+async function cp(btn) {
   try {
-    await navigator.clipboard.writeText(t);
+    const idx = btn.getAttribute('data-idx');
+    const text = cardContents[idx] || '';
+    await navigator.clipboard.writeText(text);
     const o = btn.textContent;
     btn.textContent = '✓ 복사됨';
-    setTimeout(() => btn.textContent = o, 2000);
-  } catch {}
+    btn.style.color = 'var(--sage)';
+    btn.style.borderColor = 'var(--sage)';
+    setTimeout(() => {
+      btn.textContent = o;
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  } catch(e) {
+    // Fallback for older browsers
+    const idx = btn.getAttribute('data-idx');
+    const text = cardContents[idx] || '';
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ 복사됨';
+    setTimeout(() => btn.textContent = '복사', 2000);
+  }
 }
 function reset() {
   document.getElementById('outSection').style.display = 'none';

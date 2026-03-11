@@ -1217,9 +1217,9 @@ async function generate() {
   };
 
   const lenMap = {
-    short: '5-7 minutes (approx 650-900 words for the sermon script)',
-    medium: '10-12 minutes (approx 1200-1600 words for the sermon script)',
-    long: '15-20 minutes (approx 1900-2600 words for the sermon script)'
+    short: '5-7 minutes (write approximately 650-800 words — do NOT exceed 900 words)',
+    medium: '10-12 minutes (write approximately 1000-1200 words — do NOT exceed 1400 words)',
+    long: '15-20 minutes (write approximately 1400-1800 words — do NOT exceed 2000 words)'
   };
 
   const sections = [];
@@ -1230,16 +1230,15 @@ Provide:
 - A one-sentence "Big Idea" of the sermon in child-friendly language`);
 
   if (inc.script) sections.push(`=== SERMON SCRIPT ===
-Write a complete, natural English sermon script for ${ageMap[age]}.
+Write a COMPLETE English sermon script for ${ageMap[age]}.
 Target length: ${lenMap[len]}.
+IMPORTANT: Write the FULL script from beginning to END. Do not stop mid-sentence. Always finish with a complete closing prayer or call-to-action.
 Include:
 - An engaging opening hook (story, question, or surprising fact)
 - Interactive moments [write stage directions in brackets like this]
 - Clear explanation of the Bible story/passage in simple terms
-- [OBJECT LESSON] or visual aid suggestion if appropriate
 - Transition phrases between sections
-- Memorable closing that calls children to respond
-- Write exactly as you would speak — natural, warm, enthusiastic`);
+- A complete memorable closing that calls children to respond`);
 
   if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
 Provide:
@@ -1465,10 +1464,33 @@ function renderOutput(text, title, age, len, inc) {
             <span class="out-card-icon">${def.icon}</span>
             ${def.label}
           </span>
-          <button class="copy-btn" data-idx="${idx}" onclick="cp(this)">복사</button>
+          <button class="copy-btn" onclick="cp(this)">복사</button>
         </div>
         <div class="out-card-body${def.isScript ? ' is-script' : ''}">${escH(content)}</div>
       `;
+      // Attach copy handler safely after innerHTML is set
+      const btn = card.querySelector('.copy-btn');
+      const body = card.querySelector('.out-card-body');
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(body.innerText);
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = body.innerText;
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        btn.textContent = '✓ 복사됨';
+        btn.style.color = 'var(--sage)';
+        btn.style.borderColor = 'var(--sage)';
+        setTimeout(() => {
+          btn.textContent = '복사';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2000);
+      });
     }
     cards.appendChild(card);
   });

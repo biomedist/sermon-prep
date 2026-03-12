@@ -1209,43 +1209,94 @@ async function generate() {
     ctx = `Source: ${fileObj.name}\nAdditional Notes: ${N||'(none)'}\n[File content provided as attachment]`;
   }
 
-  const ageMap = {
-    mixed: 'mixed-age children (ages 4-12), use vocabulary and examples accessible to all ages',
-    preschool: 'preschool children (ages 4-6) — very simple words, short sentences, lots of repetition and actions',
-    lower: 'early elementary children (ages 7-9) — simple relatable language, stories, and concrete examples',
-    upper: 'upper elementary children (ages 10-12) — can handle deeper concepts and more open-ended discussion'
+const ageMap = {
+    elementary: 'elementary school children (ages 7-12) — use simple, relatable language, engaging storytelling, and concrete examples.',
+    youth_adult: 'youth, young adults, and adults (ages 13+) — provide deep theological exegesis, historical/cultural context, redemptive-historical insights, and sophisticated academic/spiritual language suitable even for theology students.'
   };
 
   const lenMap = {
-    short: '5-7 minutes (write approximately 650-800 words — do NOT exceed 900 words)',
-    medium: '10-12 minutes (write approximately 1000-1200 words — do NOT exceed 1400 words)',
-    long: '15-20 minutes (write approximately 1400-1800 words — do NOT exceed 2000 words)'
+    short: '5-7 minutes (approx 650-900 words for the sermon script)',
+    medium: '10-12 minutes (approx 1200-1600 words for the sermon script)',
+    long: '15-20 minutes (approx 1900-2600 words for the sermon script)'
   };
 
   const sections = [];
+  const isDeep = (age === 'youth_adult');
+
+  // 1. 제목 및 본문 (연령에 따라 깊이 다르게)
   if (inc.title) sections.push(`=== SERMON TITLE & SCRIPTURE ===
 Provide:
-- A creative, child-friendly English sermon title (and Korean subtitle if helpful)
+- A ${isDeep ? 'theologically profound' : 'creative, child-friendly'} English sermon title (and Korean subtitle if helpful)
 - The main Bible passage (book, chapter, verses) with the full text of the key verse(s) written out (NIV or ESV)
-- A one-sentence "Big Idea" of the sermon in child-friendly language`);
+- A ${isDeep ? 'theological thesis statement' : 'one-sentence "Big Idea" of the sermon'}`);
 
+  // 2. 설교 스크립트 (이 부분이 핵심! 연령에 따라 완전히 다르게 작성)
   if (inc.script) sections.push(`=== SERMON SCRIPT ===
-Write a COMPLETE English sermon script for ${ageMap[age]}.
+Write a complete, natural English sermon script for ${ageMap[age]}.
 Target length: ${lenMap[len]}.
-IMPORTANT: Write the FULL script from beginning to END. Do not stop mid-sentence. Always finish with a complete closing prayer or call-to-action.
 Include:
-- An engaging opening hook (story, question, or surprising fact)
-- Interactive moments [write stage directions in brackets like this]
-- Clear explanation of the Bible story/passage in simple terms
-- Transition phrases between sections
-- A complete memorable closing that calls children to respond`);
+- An engaging opening
+- ${isDeep ? 'Deep exegesis of the text (mentioning original Greek/Hebrew meanings if relevant) and theological framework' : 'Interactive moments and simple explanation of the Bible passage'}
+- Clear application to daily life
+- Memorable closing that calls the congregation to respond
+- Write exactly as you would speak — ${isDeep ? 'intellectually stimulating, pastoral, and reverent' : 'natural, warm, enthusiastic'}`);
 
+  // 3. 핵심 요약
   if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
 Provide:
-• The Big Idea (one sentence — what children should remember)
+• The Big Idea / Core Message (one sentence)
 • 3-4 key points in bullet form (very brief)
-• Memory verse or key phrase (simple, repeatable)
+• Memory verse or key phrase
 • One-sentence life application`);
+
+  // ---------------------------------------------------------
+  // 아래 항목들(토론, 예화, 액티비티, 유튜브)은 오리지널 코드 그대로 유지!
+  // ---------------------------------------------------------
+
+  if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
+Provide 6-8 questions at varying levels:
+- 2-3 simple observation questions ("What happened in the story/text?")
+- 2-3 personal reflection questions ("Have you ever felt...?")
+- 1-2 application questions ("What is one thing you can do this week?")
+Label each question with its level: [OBSERVATION] [REFLECT] [APPLY]`);
+
+  if (inc.story) sections.push(`=== LIFE ILLUSTRATIONS (삶 속의 예화) ===
+Provide 2-3 vivid, relatable real-life story illustrations that connect to the sermon theme:
+- Each story should be 3-6 sentences long
+- Use modern, everyday situations the target audience can relate to
+- End each story with a bridge sentence connecting it to the biblical truth
+- Label them: [ILLUSTRATION 1], [ILLUSTRATION 2], [ILLUSTRATION 3]
+- Include a brief Korean note for each (1-2 sentences) explaining how to use it`);
+
+  if (inc.activity) sections.push(`=== GROUP ACTIVITY ===
+Design 1 main group activity and 1 backup/take-home activity:
+
+[MAIN ACTIVITY]
+- Name of activity
+- Time needed
+- Materials required
+- Step-by-step instructions (numbered)
+- How it connects to the sermon theme
+
+[TAKE-HOME / BACKUP]
+- Name
+- Simple instructions (can be done at home)
+- Connection to theme`);
+
+  if (inc.youtube) sections.push(`=== YOUTUBE BIBLE STORY VIDEOS ===
+Based on the sermon topic and Bible passage, recommend 4-5 specific YouTube videos.
+For EACH video provide ALL of the following fields exactly:
+
+VIDEO_TITLE: [exact video title]
+CHANNEL: [channel name]
+SEARCH_QUERY: [the exact YouTube search query to find this video]
+YOUTUBE_URL: [construct a YouTube search URL like: https://www.youtube.com/results?search_query=YOUR+SEARCH+HERE]
+AGE_RANGE: [best age group for this video]
+DURATION: [estimated video length if known, or "varies"]
+WHY_USE: [1-2 sentences why this video fits the sermon]
+
+Recommend a variety: animated Bible story, worship song, object lesson video, memory verse song.
+Focus on well-known channels: Saddleback Kids, Crossroads Kids Club, Minno, Superbook, Bible Project, Hillsong Kids, LifeKids.`);
 
   if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
 Provide 6-8 questions at varying levels:

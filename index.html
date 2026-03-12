@@ -1461,9 +1461,10 @@ const cardContents = {};
 
 function renderOutput(text, title, age, len, inc) {
   const ageLabels = {
-    mixed:'전체 어린이 (4-12세)', preschool:'유치부 (4-6세)',
-    lower:'초등 저학년 (7-9세)', upper:'초등 고학년 (10-12세)'
+    elementary: '초등학생', 
+    youth_adult: '중고등학생 이상'
   };
+
   const lenLabels = { short:'5~7분', medium:'10~12분', long:'15~20분' };
 
   document.getElementById('outTitle').textContent = title;

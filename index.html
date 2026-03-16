@@ -844,7 +844,7 @@ select option { background: var(--warm-white); }
     <div class="cross-wrap"><span class="cross-sym">✝</span></div>
     <div class="ornament-line"></div>
   </div>
-  <p class="church-tag">주님의교회 · the Presbyterian Church of the Lord </p>
+  <p class="church-tag">주님의교회 · Lord's Church</p>
   <h1>EM 어린이예배<br>설교 준비</h1>
   <p class="subtitle-en">Children's Sermon Preparation Assistant</p>
   <p class="subtitle-ko">말씀 중심의 예배를 준비합니다</p>
@@ -928,7 +928,7 @@ select option { background: var(--warm-white); }
       </div>
       <div class="fg">
         <label class="lbl">추가 메모 (Additional Notes)</label>
-        <textarea id="sNotes" placeholder="최근 교회 상황, 특별히 강조하고 싶은 내용, 어린이들에게 있었던 일 등을 자유롭게 적어주세요..."></textarea>
+        <textarea id="sNotes" placeholder="최근 교회 상황, 특별히 강조하고 싶은 내용, 예배 대상자들에게 있었던 일 등을 자유롭게 적어주세요..."></textarea>
       </div>
     </div>
 
@@ -952,7 +952,7 @@ select option { background: var(--warm-white); }
       <div class="block-num">2</div>
       <div>
         <div class="block-title">설교 옵션</div>
-        <div class="block-desc">대상 연령, 설교 길이, 생성할 항목을 선택해 주세요</div>
+        <div class="block-desc">대상 청중, 설교 길이, 생성할 항목을 선택해 주세요</div>
       </div>
     </div>
 
@@ -960,8 +960,9 @@ select option { background: var(--warm-white); }
       <div class="fg">
         <label class="lbl">대상 청중 (Target Audience)</label>
         <select id="age">
-          <option value="elementary" selected>초등학생 (스토리텔링 및 적용 중심)</option>
-          <option value="youth_adult">중고등학생 이상 (심도 있는 신학적·주해적 접근)</option>
+          <option value="elementary">초등학생 (스토리텔링 및 쉬운 적용 중심)</option>
+          <option value="youth" selected>청소년·청년 (일상적 언어와 공감 가는 적용)</option>
+          <option value="theology">신학생·사역자 (심도 있는 신학적·주해적 접근)</option>
         </select>
       </div>
       <div class="fg">
@@ -1017,7 +1018,7 @@ select option { background: var(--warm-white); }
         <label class="check-chip selected" data-id="youtube">
           <input type="checkbox" id="c-youtube" checked>
           <span class="chip-icon">▶️</span>
-          <span class="chip-text">바이블 스토리 (YouTube)</span>
+          <span class="chip-text">관련 영상 (YouTube)</span>
           <span class="chip-check">✓</span>
         </label>
       </div>
@@ -1034,12 +1035,12 @@ select option { background: var(--warm-white); }
 <div class="loading" id="loadArea">
   <div class="loader"></div>
   <p class="load-main">말씀을 준비하고 있습니다...</p>
-  <p style="font-size:13px; color:var(--text-light);">Preparing the Word of God for little hearts</p>
+  <p style="font-size:13px; color:var(--text-light);">Preparing the Word of God</p>
   <div class="load-steps">
     <p class="load-step">📖 성경 본문을 분석하는 중...</p>
     <p class="load-step">✍️ 설교 스크립트를 작성하는 중...</p>
     <p class="load-step">🎨 활동 및 예화를 구성하는 중...</p>
-    <p class="load-step">▶️ 유튜브 바이블 스토리를 검색하는 중...</p>
+    <p class="load-step">▶️ 유튜브 관련 영상을 검색하는 중...</p>
   </div>
 </div>
 
@@ -1193,9 +1194,11 @@ async function generate() {
     ctx = `Source: ${fileObj.name}\nAdditional Notes: ${N||'(none)'}\n[File content provided as attachment]`;
   }
 
+  // ── 3단계로 구분된 연령 맵
   const ageMap = {
     elementary: 'elementary school children (ages 7-12) — use simple, relatable language, engaging storytelling, and concrete examples.',
-    youth_adult: 'youth, young adults, and adults (ages 13+) — provide deep theological exegesis, historical/cultural context, redemptive-historical insights, and sophisticated academic/spiritual language suitable even for theology students.'
+    youth: 'youth and young adults (ages 13-25) — use contemporary, engaging language, addressing real-life struggles, identity, and practical Christian living without being overly academic.',
+    theology: 'theology students and pastors — provide deep theological exegesis, historical/cultural context, redemptive-historical insights, and sophisticated academic/spiritual language.'
   };
 
   const lenMap = {
@@ -1205,25 +1208,34 @@ async function generate() {
   };
 
   const sections = [];
-  const isDeep = (age === 'youth_adult');
+  const isElem = (age === 'elementary');
+  const isYouth = (age === 'youth');
+  const isTheo = (age === 'theology');
 
-  // 1. 제목 및 본문 (연령에 따라 깊이 다르게)
+  // 1. 제목 및 본문 (연령 3단계 분류)
+  let titlePrompt = isTheo ? 'theologically profound' : (isYouth ? 'relevant and engaging' : 'creative, child-friendly');
+  let thesisPrompt = isTheo ? 'theological thesis statement outlining the core doctrine' : (isYouth ? 'clear and impactful main takeaway' : 'one-sentence "Big Idea" of the sermon');
+
   if (inc.title) sections.push(`=== SERMON TITLE & SCRIPTURE ===
 Provide:
-- A ${isDeep ? 'theologically profound' : 'creative, child-friendly'} English sermon title (and Korean subtitle if helpful)
+- A ${titlePrompt} English sermon title (and Korean subtitle if helpful)
 - The main Bible passage (book, chapter, verses) with the full text of the key verse(s) written out (NIV or ESV)
-- A ${isDeep ? 'theological thesis statement' : 'one-sentence "Big Idea" of the sermon'}`);
+- A ${thesisPrompt}`);
 
-  // 2. 설교 스크립트 (연령에 따라 완전히 다르게 작성)
+  // 2. 설교 스크립트 (연령 3단계 분류)
+  let openingPrompt = isTheo ? 'An engaging opening that introduces a profound theological dilemma or historical context' : (isYouth ? 'An engaging opening hook (a relatable modern dilemma, cultural reference, or deep question)' : 'An engaging opening hook (story, question, or surprising fact)');
+  let bodyPrompt = isTheo ? 'Deep exegesis of the text (mentioning original Greek/Hebrew meanings if relevant) and theological framework' : (isYouth ? 'Clear, culturally relevant explanation of the Bible passage connecting to modern struggles' : 'Interactive moments and simple explanation of the Bible passage');
+  let tonePrompt = isTheo ? 'intellectually stimulating, pastoral, passionate, and reverent' : (isYouth ? 'authentic, conversational, challenging, and deeply encouraging' : 'natural, warm, enthusiastic');
+
   if (inc.script) sections.push(`=== SERMON SCRIPT ===
 Write a complete, natural English sermon script for ${ageMap[age]}.
 Target length: ${lenMap[len]}.
 Include:
-- An engaging opening
-- ${isDeep ? 'Deep exegesis of the text (mentioning original Greek/Hebrew meanings if relevant) and theological framework' : 'Interactive moments and simple explanation of the Bible passage'}
+- ${openingPrompt}
+- ${bodyPrompt}
 - Clear application to daily life
 - Memorable closing that calls the congregation to respond
-- Write exactly as you would speak — ${isDeep ? 'intellectually stimulating, pastoral, and reverent' : 'natural, warm, enthusiastic'}`);
+- Write exactly as you would speak — ${tonePrompt}`);
 
   // 3. 핵심 요약
   if (inc.summary) sections.push(`=== KEY MESSAGE SUMMARY ===
@@ -1233,7 +1245,7 @@ Provide:
 • Memory verse or key phrase
 • One-sentence life application`);
 
-  // 중복이 제거된 공통 부가 항목들
+  // 기타 항목들 유지
   if (inc.discussion) sections.push(`=== DISCUSSION QUESTIONS ===
 Provide 6-8 questions at varying levels:
 - 2-3 simple observation questions ("What happened in the story/text?")
@@ -1264,7 +1276,7 @@ Design 1 main group activity and 1 backup/take-home activity:
 - Simple instructions (can be done at home)
 - Connection to theme`);
 
-  if (inc.youtube) sections.push(`=== YOUTUBE BIBLE STORY VIDEOS ===
+  if (inc.youtube) sections.push(`=== YOUTUBE VIDEOS ===
 Based on the sermon topic and Bible passage, recommend 4-5 specific YouTube videos.
 For EACH video provide ALL of the following fields exactly:
 
@@ -1276,8 +1288,7 @@ AGE_RANGE: [best age group for this video]
 DURATION: [estimated video length if known, or "varies"]
 WHY_USE: [1-2 sentences why this video fits the sermon]
 
-Recommend a variety: animated Bible story, worship song, object lesson video, memory verse song.
-Focus on well-known channels: Saddleback Kids, Crossroads Kids Club, Minno, Superbook, Bible Project, Hillsong Kids, LifeKids.`);
+Recommend a variety: animated Bible story, worship song, object lesson video, or theology explainer. Focus on well-known Christian channels appropriate for the selected audience.`);
 
   const prompt = `You are an experienced, creative pastoral ministry assistant preparing Sunday sermon materials for ${ageMap[age]}.
 
@@ -1306,7 +1317,7 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for th
 
   // ── Calculate max tokens based on selected sections
   const selectedCount = Object.values(inc).filter(Boolean).length;
-  const hasScript = inc.script; // 설교 스크립트는 특히 많은 토큰 필요
+  const hasScript = inc.script;
   const baseTokens = hasScript ? 10000 : 5000;
   const maxTokens = Math.min(baseTokens + (selectedCount * 800), 16000);
 
@@ -1319,14 +1330,13 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for th
     let text = '';
 
     if (aiProvider === 'gemini') {
-      // ── GEMINI: v1beta 및 안정적인 모델 사용
+      // ── GEMINI: v1beta 및 최신 안정적 모델 사용
       const parts = [];
       if (tab === 'file' && fileObj && fileObj.type === 'application/pdf' && fileb64) {
         parts.push({ inline_data: { mime_type: 'application/pdf', data: fileb64 } });
       }
       parts.push({ text: prompt });
 
-      // 수정된 부분: v1beta 적용
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
       const res = await fetch(geminiUrl, {
         method: 'POST',
@@ -1396,9 +1406,11 @@ Be warm, Spirit-filled, and creative. Make every section genuinely useful for th
 const cardContents = {};
 
 function renderOutput(text, title, age, len, inc) {
+  // 3단계 라벨 매핑
   const ageLabels = {
     elementary: '초등학생', 
-    youth_adult: '중고등학생 이상'
+    youth: '청소년·청년',
+    theology: '신학생·사역자'
   };
 
   const lenLabels = { short:'5~7분', medium:'10~12분', long:'15~20분' };
@@ -1417,7 +1429,7 @@ function renderOutput(text, title, age, len, inc) {
     { key:'DISCUSSION QUESTIONS', icon:'💬', label:'토론 / 질문 가이드', isYT:false },
     { key:'LIFE ILLUSTRATIONS', icon:'🌱', label:'삶 속의 예화 (Life Illustrations)', isYT:false },
     { key:'GROUP ACTIVITY', icon:'🎨', label:'Group Activity', isYT:false },
-    { key:'YOUTUBE BIBLE STORY VIDEOS', icon:'▶️', label:'바이블 스토리 YouTube 추천', isYT:true },
+    { key:'YOUTUBE VIDEOS', icon:'▶️', label:'관련 영상 YouTube 추천', isYT:true },
   ];
 
   defs.forEach(def => {

@@ -678,11 +678,17 @@ select option { background: var(--warm-white); }
 .out-card.kr .out-card-icon { background: rgba(92,122,90,0.12); }
 .out-card.kr .out-card-label { color: var(--sage); }
 
-/* Reset */
+/* ── Out actions */
+.out-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .reset-btn {
-  display: block;
-  margin: 36px auto 0;
-  padding: 11px 30px;
+  padding: 11px 22px;
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-light);
@@ -692,8 +698,211 @@ select option { background: var(--warm-white); }
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .reset-btn:hover { border-color: var(--gold-light); color: var(--brown-warm); }
+
+.download-btn {
+  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid rgba(92,122,90,0.35);
+  color: var(--sage);
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.download-btn:hover { background: rgba(92,122,90,0.08); }
+
+.history-view-btn {
+  padding: 11px 22px;
+  background: transparent;
+  border: 1px solid rgba(184,136,42,0.35);
+  color: var(--gold);
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.history-view-btn:hover { background: rgba(184,136,42,0.08); }
+
+/* ── Deep dive */
+.deepdive-box {
+  background: rgba(92,122,90,0.05);
+  border: 1px solid rgba(92,122,90,0.2);
+  border-radius: 14px;
+  margin-top: 24px;
+  overflow: hidden;
+}
+.deepdive-header {
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--sage);
+  border-bottom: 1px solid rgba(92,122,90,0.15);
+  background: rgba(92,122,90,0.06);
+}
+.deepdive-body {
+  padding: 16px 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.deepdive-body textarea { flex: 1; min-height: 70px; font-size: 14px; resize: vertical; }
+.deepdive-btn {
+  white-space: nowrap;
+  padding: 11px 18px;
+  background: var(--sage);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 100px;
+}
+.deepdive-btn:hover { background: #4a6649; }
+.deepdive-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.deepdive-result {
+  margin: 0 20px 16px;
+  padding: 16px;
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14.5px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
+/* ── History panel */
+.history-panel {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-top: 28px;
+  overflow: hidden;
+}
+.history-header {
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(184,136,42,0.06);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  color: var(--brown-deep);
+}
+.history-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.history-list { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  gap: 12px;
+  transition: border-color 0.2s;
+}
+.history-item:hover { border-color: var(--border-hover); }
+.history-item-info { flex: 1; }
+.history-item-title { font-size: 15px; font-weight: 500; color: var(--brown-deep); }
+.history-item-meta { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+.history-item-btns { display: flex; gap: 8px; }
+.h-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-light);
+}
+.h-btn:hover { border-color: var(--gold-light); color: var(--brown-warm); }
+.h-btn.del { color: var(--rust); }
+.h-btn.del:hover { border-color: var(--rust); }
+.history-empty {
+  text-align: center;
+  padding: 32px;
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ── Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--warm-white);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-header {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Noto Serif KR', serif;
+  font-size: 16px;
+  color: var(--brown-deep);
+  background: rgba(184,136,42,0.06);
+  gap: 12px;
+}
+.modal-header button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.modal-body {
+  padding: 22px;
+  overflow-y: auto;
+  font-size: 14.5px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+@media (max-width: 580px) {
+  .deepdive-body { flex-direction: column; }
+  .out-actions { flex-direction: column; align-items: center; }
+  .history-item { flex-direction: column; align-items: flex-start; }
+}
 
 /* Divider */
 .dv {
@@ -979,44 +1188,44 @@ select option { background: var(--warm-white); }
       <label class="lbl">생성할 항목 선택 (Output Sections)</label>
       <p style="font-size:13px; color:var(--text-light); margin-bottom:12px;">✅ 클릭하면 선택/해제 됩니다. 선택된 항목만 생성돼요!</p>
       <div class="checks" id="checksArea">
-        <label class="check-chip selected" data-id="title">
-          <input type="checkbox" id="c-title" checked>
+        <label class="check-chip" data-id="title">
+          <input type="checkbox" id="c-title">
           <span class="chip-icon">📌</span>
           <span class="chip-text">설교 제목 & 성경 본문</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="script">
-          <input type="checkbox" id="c-script" checked>
+        <label class="check-chip" data-id="script">
+          <input type="checkbox" id="c-script">
           <span class="chip-icon">📖</span>
           <span class="chip-text">설교 스크립트 (영어)</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="summary">
-          <input type="checkbox" id="c-summary" checked>
+        <label class="check-chip" data-id="summary">
+          <input type="checkbox" id="c-summary">
           <span class="chip-icon">✨</span>
           <span class="chip-text">핵심 메시지 요약</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="discussion">
-          <input type="checkbox" id="c-discussion" checked>
+        <label class="check-chip" data-id="discussion">
+          <input type="checkbox" id="c-discussion">
           <span class="chip-icon">💬</span>
           <span class="chip-text">토론/질문 가이드</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="story">
-          <input type="checkbox" id="c-story" checked>
+        <label class="check-chip" data-id="story">
+          <input type="checkbox" id="c-story">
           <span class="chip-icon">🌱</span>
           <span class="chip-text">삶 속의 예화</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="activity">
-          <input type="checkbox" id="c-activity" checked>
+        <label class="check-chip" data-id="activity">
+          <input type="checkbox" id="c-activity">
           <span class="chip-icon">🎨</span>
           <span class="chip-text">Group Activity</span>
           <span class="chip-check">✓</span>
         </label>
-        <label class="check-chip selected" data-id="youtube">
-          <input type="checkbox" id="c-youtube" checked>
+        <label class="check-chip" data-id="youtube">
+          <input type="checkbox" id="c-youtube">
           <span class="chip-icon">▶️</span>
           <span class="chip-text">관련 영상 (YouTube)</span>
           <span class="chip-check">✓</span>
@@ -1051,7 +1260,43 @@ select option { background: var(--warm-white); }
     <p class="out-sub" id="outSub"></p>
   </div>
   <div id="outCards"></div>
-  <button class="reset-btn" onclick="reset()">↩ 새 설교 준비하기</button>
+
+  <!-- 더 자세히 설명받기 -->
+  <div class="deepdive-box">
+    <div class="deepdive-header">🔍 더 자세히 알고 싶은 내용이 있으신가요?</div>
+    <div class="deepdive-body">
+      <textarea id="deepdiveInput" placeholder="예: 오프닝 부분을 더 흥미롭게 바꿔주세요 / 히브리어 의미를 더 자세히 설명해주세요 / 어린이용 예화를 3개 더 추가해주세요..."></textarea>
+      <button class="deepdive-btn" id="deepdiveBtn" onclick="deepDive()">💡 더 자세히</button>
+    </div>
+    <div id="deepdiveResult" class="deepdive-result" style="display:none;"></div>
+  </div>
+
+  <!-- 하단 액션 버튼 -->
+  <div class="out-actions">
+    <button class="reset-btn" onclick="reset()">↩ 새 설교 준비하기</button>
+    <button class="download-btn" onclick="downloadTxt()">⬇ TXT 저장</button>
+    <button class="history-view-btn" onclick="toggleHistory()">📚 히스토리</button>
+  </div>
+</div>
+
+<!-- 히스토리 패널 -->
+<div class="history-panel" id="historyPanel" style="display:none;">
+  <div class="history-header">
+    <span>📚 설교 히스토리</span>
+    <button class="history-close" onclick="toggleHistory()">✕ 닫기</button>
+  </div>
+  <div id="historyList" class="history-list"></div>
+</div>
+
+<!-- 히스토리 상세 모달 -->
+<div class="modal-overlay" id="modalOverlay" style="display:none;" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <button onclick="closeModal()">✕ 닫기</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
 </div>
 
 </div><script>
@@ -1498,6 +1743,148 @@ function renderOutput(text, title, age, len, inc) {
   const outSec = document.getElementById('outSection');
   outSec.style.display = 'block';
   outSec.scrollIntoView({ behavior:'smooth' });
+
+  // 히스토리 자동 저장
+  const sub = `${ageLabels[age]} · ${lenLabels[len]} · ${new Date().toLocaleDateString('ko-KR')}`;
+  saveToHistory(title, sub, text);
+}
+
+// ── HISTORY (localStorage)
+const HISTORY_KEY = 'sermon_history';
+
+function saveToHistory(title, sub, rawText) {
+  let history = getHistory();
+  history.unshift({ id: Date.now(), title, sub, rawText, date: new Date().toLocaleDateString('ko-KR') });
+  if (history.length > 20) history.pop();
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+  catch { return []; }
+}
+
+function toggleHistory() {
+  const panel = document.getElementById('historyPanel');
+  const isHidden = panel.style.display === 'none';
+  panel.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) { renderHistoryList(); panel.scrollIntoView({ behavior:'smooth' }); }
+}
+
+function renderHistoryList() {
+  const list = document.getElementById('historyList');
+  const history = getHistory();
+  if (!history.length) {
+    list.innerHTML = '<div class="history-empty">📭 저장된 히스토리가 없습니다.<br>설교를 생성하면 자동으로 저장돼요!</div>';
+    return;
+  }
+  list.innerHTML = history.map(h => `
+    <div class="history-item">
+      <div class="history-item-info">
+        <div class="history-item-title">${escH(h.title)}</div>
+        <div class="history-item-meta">${escH(h.sub)}</div>
+      </div>
+      <div class="history-item-btns">
+        <button class="h-btn" onclick="viewHistory(${h.id})">📄 보기</button>
+        <button class="h-btn" onclick="downloadHistory(${h.id})">⬇ 저장</button>
+        <button class="h-btn del" onclick="deleteHistory(${h.id})">🗑 삭제</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function viewHistory(id) {
+  const h = getHistory().find(x => x.id === id);
+  if (!h) return;
+  document.getElementById('modalTitle').textContent = `${h.title} — ${h.sub}`;
+  document.getElementById('modalBody').textContent = h.rawText;
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
+function deleteHistory(id) {
+  if (!confirm('이 히스토리를 삭제할까요?')) return;
+  const history = getHistory().filter(x => x.id !== id);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  renderHistoryList();
+}
+
+function downloadHistory(id) {
+  const h = getHistory().find(x => x.id === id);
+  if (h) downloadAsText(h.title, h.rawText);
+}
+
+// ── TXT 다운로드
+function downloadTxt() {
+  const title = document.getElementById('outTitle').textContent;
+  const sub = document.getElementById('outSub').textContent;
+  const bodies = document.querySelectorAll('#outCards .out-card-body');
+  const heads = document.querySelectorAll('#outCards .out-card-label');
+  let content = `주님의교회 EM 설교준비\n${'='.repeat(40)}\n${title}\n${sub}\n${'='.repeat(40)}\n\n`;
+  heads.forEach((h, i) => {
+    if (bodies[i]) content += `\n【 ${h.innerText.trim()} 】\n${'─'.repeat(30)}\n${bodies[i].innerText.trim()}\n\n`;
+  });
+  downloadAsText(title, content);
+}
+
+function downloadAsText(title, content) {
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `설교_${title}_${new Date().toLocaleDateString('ko-KR').replace(/\./g,'')}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── 더 자세히 설명받기 (Deep Dive)
+async function deepDive() {
+  const question = document.getElementById('deepdiveInput').value.trim();
+  if (!question) { alert('질문이나 요청 내용을 입력해 주세요!'); return; }
+
+  const bodies = document.querySelectorAll('#outCards .out-card-body');
+  const context = Array.from(bodies).map(b => b.innerText).join('\n\n---\n\n');
+
+  const btn = document.getElementById('deepdiveBtn');
+  const result = document.getElementById('deepdiveResult');
+  btn.disabled = true; btn.textContent = '⏳ 분석 중...';
+  result.style.display = 'none';
+
+  const prompt = `You are a pastor and theologian. Below is sermon material that was prepared:\n\n---\n${context}\n---\n\nThe pastor's follow-up request:\n"${question}"\n\nRespond helpfully and warmly. Match the language of the request (Korean or English).`;
+
+  try {
+    let responseText = '';
+    if (aiProvider === 'gemini') {
+      const apiKey = document.getElementById('geminiKeyInput').value.trim();
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 3000, temperature: 0.8 } })
+      });
+      const data = await res.json();
+      responseText = data.candidates?.[0]?.content?.parts?.map(p => p.text||'').join('') || '';
+    } else {
+      const apiKey = document.getElementById('claudeKeyInput').value.trim();
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({ model: 'claude-3-5-sonnet-20241022', max_tokens: 3000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await res.json();
+      responseText = data.content?.map(b => b.text||'').join('') || '';
+    }
+    result.textContent = responseText || '응답이 비어있습니다. 다시 시도해 주세요.';
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth' });
+  } catch(e) {
+    result.textContent = '오류: ' + e.message;
+    result.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💡 더 자세히';
+  }
 }
 
 function parseYTVideos(text) {
